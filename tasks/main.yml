@@ -24,6 +24,12 @@
     src: env.j2
     dest: /mnt/jitsi/.env
 
+- name: Fix passwords in .env file
+  shell: |
+    cd /mnt/jitsi
+    ./gen-passwords.sh
+  when: jitsi_generate_random_password|bool == true
+
 - name: fix python docker
   shell: |
     pip uninstall docker-py --yes; pip uninstall docker --yes; pip install docker
@@ -33,11 +39,9 @@
     src: jitsi.service.j2
     dest: /etc/systemd/system/jitsi.service
 
-- name: Reload systemd
-  shell: systemctl daemon-reload
-
 - name: Start the jitsi service
   systemd:
     name: jitsi
-    state: started
+    state: restarted
     enabled: yes
+    daemon_reload: yes

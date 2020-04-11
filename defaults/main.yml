@@ -1,0 +1,10 @@
+---
+
+jitsi_generate_random_password: true
+jitsi_security:
+  jvb_password: passw0rd
+  jicofo_component_secret: s3cr37
+  jicofo_auth_password: passw0rd
+  jigasi_xmpp_password: passw0rd
+  jibri_recorder_password: passw0rd
+  jibri_xmpp_password: passw0rd
