@@ -4,12 +4,15 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Type=oneshot
+Type=simple
 RemainAfterExit=yes
 WorkingDirectory=/mnt/jitsi
 ExecStart=/usr/bin/docker-compose up
 ExecStop=/usr/bin/docker-compose down
 TimeoutStartSec=0
+Restart=always
+RestartSec=1
+SyslogIdentifier=jitsi
 
 [Install]
 WantedBy=multi-user.target
