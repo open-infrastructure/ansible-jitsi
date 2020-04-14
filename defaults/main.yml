@@ -8,3 +8,5 @@ jitsi_security:
   jigasi_xmpp_password: passw0rd
   jibri_recorder_password: passw0rd
   jibri_xmpp_password: passw0rd
+
+jitsi_manual_docker_build: false

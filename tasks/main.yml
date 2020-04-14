@@ -1,12 +1,20 @@
 ---
 
-- name: Ensure jitsi directories do not exist
+- name: stop the jitsi service
+  systemd:
+    name: jitsi
+    state: stopped
+
+- name: Ensure jitsi config directories do not exist
   file:
-    path: "{{ item }}"
+    path: "/root/.jitsi-meet-cfg"
     state: absent
-  with_items:
-    - "/mnt/jitsi"
-    - "/root/.jitsi-meet-cfg"
+
+- name: Ensure jitsi code directory do not exist
+  file:
+    path: "/mnt/jitsi"
+    state: absent
+  when: jitsi_manual_docker_build|bool == true
 
 - name: Ensure jitsi config directories exists
   file:
@@ -29,7 +37,8 @@
 
 - name: Build the docker immages
   shell: |
-    tmux new-session -s "make" "cd /mnt/jitsi && FORCE_REBUILD=1 make | tee /var/log/jitsibuild.log; true"
+    $(tmux new-session -s "make" "cd /mnt/jitsi && FORCE_REBUILD=1 make | tee /var/log/jitsibuild.log; true") || true
+  when: jitsi_manual_docker_build|bool == true
 
 - name: Copy .env file
   template:
