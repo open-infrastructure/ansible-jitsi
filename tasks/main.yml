@@ -27,6 +27,10 @@
     update: yes
     recursive: yes
 
+- name: Build the docker immages
+  shell: |
+    tmux new-session -s "make" "cd /mnt/jitsi && FORCE_REBUILD=1 make | tee /var/log/jitsibuild.log; true"
+
 - name: Copy .env file
   template:
     src: env.j2
