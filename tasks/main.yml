@@ -1,6 +1,14 @@
 ---
 
-- name: Ensure jitsi directories  exists
+- name: Ensure jitsi directories do not exist
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/mnt/jitsi"
+    - "/root/.jitsi-meet-cfg"
+
+- name: Ensure jitsi config directories exists
   file:
     path: "{{ item }}"
     state: directory
@@ -45,3 +53,4 @@
     state: restarted
     enabled: yes
     daemon_reload: yes
+
